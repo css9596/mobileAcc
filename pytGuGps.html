@@ -6,85 +6,96 @@
 <meta name="format-detection" content="telephone=no, address=no, email=no" />
 <title>DB손해보험</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-</head>
-<body>
 <script type="text/javascript">
+	var cancleCount = 3;
+
+	//ajax
+	
+	
+	$(document).ready(function() {
+		var varUA = navigator.userAgent.toLowerCase();
+		console.log("varUA : "+varUA); 
+		document.getElementById('agent').innerHTML = varUA;
+	
+		//고객의 현재위치 가져오기
+		//custGPS();
+	});
 		
-
-//ajax
-
-
-$(document).ready(function() {
-	var varUA = navigator.userAgent.toLowerCase();
-	console.log("varUA : "+varUA); 
-	document.getElementById('agent').innerHTML = varUA;
-
-	//고객의 현재위치 가져오기
-	//custGPS();
-});
-	
-function custGPS(){
-		if (navigator.geolocation) {
-			console.log("navigator.geolocation");
-			//브라우저가 geolocatioin을 지원하는지 확인한 후
-			navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-		}
-}
-	
-function successCallback(wp_position) {
-	custLat = wp_position.coords.latitude;
-	console.log("custLat : "+custLat);
-	custLng = wp_position.coords.latitude;
-	console.log("custLng : "+custLng);
-	
-	document.getElementById('posi').innerHTML = custLat+","+custLng;
-}
-
-function errorCallback(error) {
-	cancleCount--;
-	if(cancleCount < 1){
-		alert("브라우저를 완전히 종료 후 재 접속해주시기 바랍니다.");
-	}else{
-		alert("거부를 하시면 이용하실 수 없습니다. "+cancleCount+"회 남았습니다.");
+	function custGPS(){
+			if (navigator.geolocation) {
+				console.log("navigator.geolocation");
+				//브라우저가 geolocatioin을 지원하는지 확인한 후
+				navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+			}
+	}
+		
+	function successCallback(wp_position) {
+		custLat = wp_position.coords.latitude;
+		console.log("custLat : "+custLat);
+		custLng = wp_position.coords.latitude;
+		console.log("custLng : "+custLng);
+		
+		document.getElementById('posi').innerHTML = custLat+","+custLng;
 	}
 	
-	location.reload();
-}
-
-
-function custPotision(){
-	console.log("custPosInit");
-	
-	var hospLatitude = 66.77;
-	
-	var hospLongitude = 88.88;
-	
-	var param = "hospLatitude="+hospLatitude
-	+ "&hospLongitude="+hospLongitude; 
-	console.log("param : "+param);
-	
-	$.ajax({
-		type: 'GET',
-		url: '/mobileacc/pytGuGps.do?',
-		data: {
-			hospLatitude,
-			hospLongitude
-		},
-		dataType: 'text',
-		success: function(data){
-			alert("ajax 성공"+data);
-		},
-		error: function(){
-			alert("ajax 실패");
+	function errorCallback(error) {
+		/*switch(error.code) {
+			case error.PERMISSION_DENIED: console.log("PERMISSION_DENIED(값:1) = 사용자가 위치 정보 접근을 허용하도록 브라우저 권한 설정(https)");
+			break;
+			case error.POSITION_UNAVAILABLE: console.log("POSITION_UNAVAILABLE(값:2) = 사용자가 위치 정보 서비스를 사용할 수 있도록 GPS 설정");
+			break;
+			case error.TIMEOUT: console.log("TIMEOUT(값:3) = timeout 값 수정 or 사용자가 재시도할 수 있는 옵션 제공");
+			break;
+			case error.UNKNOWN_ERROR: console.log("UNKNOWN_ERROR = 정의되지 않은 오류. 디버깅 필요")
 		}
-	})
+			*/
+		cancleCount--;
+		if(cancleCount < 1){
+			alert("브라우저를 완전히 종료 후 재 접속해주시기 바랍니다.");
+		}else{
+			alert("거부를 하시면 이용하실 수 없습니다. "+cancleCount+"회 남았습니다.");
+		}
+		
+		location.reload();
+	}
 	
-	console.log("form data : "+$("#frm"));
-	$("#frm").submit();	 
-}
 	
-	
-</script>
+	function custPotision(){
+		console.log("custPosInit");
+		
+		var hospLatitude = 66.77;
+		
+		var hospLongitude = 88.88;
+		
+		var param = "hospLatitude="+hospLatitude
+		+ "&hospLongitude="+hospLongitude; 
+		console.log("param : "+param);
+		
+		$.ajax({
+			type: 'GET',
+			url: '/mobileacc/pytGuGps.do?',
+			data: {
+				hospLatitude,
+				hospLongitude
+			},
+			dataType: 'text',
+			success: function(data){
+				alert("ajax 성공"+data);
+			},
+			error: function(){
+				alert("ajax 실패");
+			}
+		})
+		
+		console.log("form data : "+$("#frm"));
+		$("#frm").submit();	 
+	}
+		
+		
+	</script>
+</head>
+<body>
+
 <form>
 	<div id="wrap">
 	<div id="container">
