@@ -26,7 +26,7 @@ $(document).ready(function()
 		document.getElementById('agent').innerHTML = varUA;
 		
 		//고객의 현재위치 가져오기
-		custGPS();
+		//custGPS();
 		
 		function custGPS(){
 			if (navigator.geolocation) {
@@ -118,7 +118,7 @@ $(document).ready(function()
 
 				<div class="fixed_bottom_button t1">
 					<ul class="grid s1">
-						<li><a href="/mobileacc/pytGuGpsError.do" class="btn bs1 bsr1 bc1" role="button" onclick="custPotision();">진행하기</a></li>
+						<li><a href="/mobileacc/pytGuGpsError.do" class="btn bs1 bsr1 bc1" role="button" onclick="custGPS();">진행하기</a></li>
 					</ul>
 				</div>
 			</section><!-- //section -->		
