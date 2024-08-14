@@ -50,7 +50,7 @@ function errorCallback(error) {
 		break;
 		case error.UNKNOWN_ERROR: console.log("UNKNOWN_ERROR = 정의되지 않은 오류. 디버깅 필요")
 	}
-	if (confirm("위치 권한이 거부되었습니다. 페이지를 새로고침하여 다시 요청하시겠습니까?")) {
+	if (alert("위치 권한이 거부되었습니다.")) {
     	location.reload();
     }
 	alert("error.code : "+error.code);
