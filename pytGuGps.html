@@ -41,19 +41,8 @@ function successCallback(wp_position) {
 }
 
 function errorCallback(error) {
-	switch(error.code) {
-		case error.PERMISSION_DENIED: console.log("PERMISSION_DENIED(값:1) = 사용자가 위치 정보 접근을 허용하도록 브라우저 권한 설정(https)");
-		break;
-		case error.POSITION_UNAVAILABLE: console.log("POSITION_UNAVAILABLE(값:2) = 사용자가 위치 정보 서비스를 사용할 수 있도록 GPS 설정");
-		break;
-		case error.TIMEOUT: console.log("TIMEOUT(값:3) = timeout 값 수정 or 사용자가 재시도할 수 있는 옵션 제공");
-		break;
-		case error.UNKNOWN_ERROR: console.log("UNKNOWN_ERROR = 정의되지 않은 오류. 디버깅 필요")
-	}
-	if (alert("위치 권한이 거부되었습니다.")) {
-    	location.reload();
-    }
-	alert("error.code : "+error.code);
+	alert("거부를 하시면 이용하실 수 없습니다.");
+	location.reload();
 }
 
 
