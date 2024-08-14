@@ -41,14 +41,13 @@ function successCallback(wp_position) {
 }
 
 function errorCallback(error) {
-	if(error.code == 1){
-		cancleCount--;
-		if(cancleCount < 1){
-			alert("브라우저를 완전히 종료 후 재 접속해주시기 바랍니다.");
-		}else{
-			alert("거부를 하시면 이용하실 수 없습니다. "+cancleCount+"회 남았습니다.");
-		}
+	cancleCount--;
+	if(cancleCount < 1){
+		alert("브라우저를 완전히 종료 후 재 접속해주시기 바랍니다.");
+	}else{
+		alert("거부를 하시면 이용하실 수 없습니다. "+cancleCount+"회 남았습니다.");
 	}
+	
 	location.reload();
 }
 
