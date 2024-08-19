@@ -48,7 +48,7 @@ console.log('today>>',today);
 
 // 마지막 접속 날짜가 오늘이 아니면, 접속 이벤트 기록
 if (lastVisit !== today) {
-	logEvent(analytics, '이벤트_일별_접속', {
+	logEvent(analytics, '접속한_유저_수', {
 	date: today,
 	content_type: 'connect',
 	content_id: 'acc_qr'
