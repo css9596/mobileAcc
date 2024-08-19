@@ -6,6 +6,31 @@
 <meta name="format-detection" content="telephone=no, address=no, email=no" />
 <title>DB손해보험</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script type="module">
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+import { getPerformance } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-performance.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBuEUO2vPaf6P257Hl15SVhJ1cHvDKVumU",
+  authDomain: "mobileacc-6d508.firebaseapp.com",
+  projectId: "mobileacc-6d508",
+  storageBucket: "mobileacc-6d508.appspot.com",
+  messagingSenderId: "586703414695",
+  appId: "1:586703414695:web:01d9620fe2f45ad16dc282",
+  measurementId: "G-5C429VGFL1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const perf = getPerformance(app);
+</script>
 <script type="text/javascript">
 	var cancleCount = 3;
 
