@@ -42,7 +42,9 @@ function getTodayDate() {
 
 // 마지막으로 저장된 접속 날짜 확인
 const lastVisit = localStorage.getItem('lastVisit');
+console.log('lastVisit>>',lastVisit);
 const today = getTodayDate();
+console.log('today>>',today);
 
 // 마지막 접속 날짜가 오늘이 아니면, 접속 이벤트 기록
 if (lastVisit !== today) {
