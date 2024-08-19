@@ -30,6 +30,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const perf = getPerformance(app);
+
+analytics.logEvent('접속_이벤트', {
+          content_type: 'connect',
+          content_id: 'acc_qr'
+        });
 </script>
 <script type="text/javascript">
 	var cancleCount = 3;
