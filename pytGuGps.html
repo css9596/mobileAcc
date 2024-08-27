@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DB 손해보험_위치정보가져오기</title>
+    <title>QR Code Geo Compare</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -86,11 +86,45 @@
         }
 
         function showPosition(position){
+
+            const selectElement = document.getElementById('place');
+            const selectedValue = selectElement.value;
+
+            if(selectedValue == ''){
+                alert("거리 계산 할 장소를 선택해주세요.");
+                return;
+            }
+            const hospital_lat = ''; // 병원의 위도
+            const hospital_lon = ''; // 병원의 경도
+
+            switch(selectedValue){
+                case 0://삼성동 삼성병원
+                    hospital_lat = 37.4881193;
+                    hospital_lon = 127.0849885;
+                    break;
+                case 1://DB금융센터
+                    hospital_lat = 37.5057617;
+                    hospital_lon = 127.0547936;
+                case 2://강북삼성병원
+                    hospital_lat = 37.5683585;
+                    hospital_lon = 126.9674846;
+                case 3://파엔이베뉴
+                    hospital_lat = 37.5657852;
+                    hospital_lon = 126.9887184;
+                case 4://예산_친척집
+                    hospital_lat = 36.711536;
+                    hospital_lon = 126.801872;
+                case 5://우리집
+                    hospital_lat = 37.5644184;
+                    hospital_lon = 126.9540157;
+                default:
+                    break;
+            }
+
             // 사용 예시
             const user_lat = position.coords.latitude; // 사용자 위치의 위도
             const user_lon = position.coords.longitude; // 사용자 위치의 경도
-            const hospital_lat = 37.4881193; // 병원의 위도
-            const hospital_lon = 127.0849885; // 병원의 경도
+            
 
             const distances = getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon);
             $('#calc_km').text(`${distances.distanceKm.toFixed(2)}`)
@@ -122,9 +156,18 @@
     <header>
         <h1>두 지점간 거리계산 로직 산출</h1>
     </header>
+    <select id="place">
+        <option value="">선택</option>
+        <option value="0">삼성병원(삼성동)</option>
+        <option value="1">DB금융센터(선릉)</option>
+        <option value="2">강북삼성병원(종로)</option>
+        <option value="3">파인에비뉴(을지로)</option>
+        <option value="4">예산_친척집(예산)</option>
+        <option value="5">우리집</option>
+    </select>
     <div>
-        병원과 사용자 위치간 거리: <span id="calc_km"></span> km <br>
-        병원과 사용자 위치간 거리: <span id="calc_m"></span> m
+        목적지와 사용자 위치간 거리: <span id="calc_km"></span> km <br>
+        목적지와 사용자 위치간 거리: <span id="calc_m"></span> m
     </div>
     <button id="calc" onclick="javascript:getDistance();">계산하기</button>
 </body>
