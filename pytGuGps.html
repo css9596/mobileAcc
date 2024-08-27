@@ -94,29 +94,34 @@
                 alert("거리 계산 할 장소를 선택해주세요.");
                 return;
             }
-            const hospital_lat = ''; // 병원의 위도
-            const hospital_lon = ''; // 병원의 경도
+            let hospital_lat = 0; // 병원의 위도
+            let hospital_lon = 0; // 병원의 경도
 
             switch(selectedValue){
-                case 0://삼성동 삼성병원
+                case '0'://삼성동 삼성병원
                     hospital_lat = 37.4881193;
                     hospital_lon = 127.0849885;
                     break;
-                case 1://DB금융센터
+                case '1'://DB금융센터
                     hospital_lat = 37.5057617;
                     hospital_lon = 127.0547936;
-                case 2://강북삼성병원
+                    break;
+                case '2'://강북삼성병원
                     hospital_lat = 37.5683585;
                     hospital_lon = 126.9674846;
-                case 3://파엔이베뉴
+                    break;
+                case '3'://파엔이베뉴
                     hospital_lat = 37.5657852;
                     hospital_lon = 126.9887184;
-                case 4://예산_친척집
+                    break;
+                case '4'://예산_친척집
                     hospital_lat = 36.711536;
                     hospital_lon = 126.801872;
-                case 5://우리집
+                    break;
+                case '5'://우리집
                     hospital_lat = 37.5644184;
                     hospital_lon = 126.9540157;
+                    break;
                 default:
                     break;
             }
