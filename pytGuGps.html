@@ -55,8 +55,11 @@
     </script>
     <script>
        //$('#user_agent').text(navigator.userAgent.toLowerCase());
-       var varUA = navigator.userAgent.toLowerCase();
-       document.getElementById("agent").innerHTML = varUA;
+       $(document).ready(function(){
+        var varUA = navigator.userAgent.toLowerCase();
+        document.getElementById("agent").innerHTML = varUA;
+       });
+       
 
         function getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon) {
             //Haversine 공식 : 지구를 구형으로 간주하고 두 지점 간의 대원 거리(즉, 구면 위에서의 직선 거리)를 계산합니다.
