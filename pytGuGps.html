@@ -1,183 +1,129 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="format-detection" content="telephone=no, address=no, email=no" />
-<title>DB손해보험</title>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script type="module">
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-import { getPerformance } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-performance.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Geo Compare</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+        import { getPerformance } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-performance.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBuEUO2vPaf6P257Hl15SVhJ1cHvDKVumU",
-  authDomain: "mobileacc-6d508.firebaseapp.com",
-  projectId: "mobileacc-6d508",
-  storageBucket: "mobileacc-6d508.appspot.com",
-  messagingSenderId: "586703414695",
-  appId: "1:586703414695:web:01d9620fe2f45ad16dc282",
-  measurementId: "G-5C429VGFL1"
-};
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyBuEUO2vPaf6P257Hl15SVhJ1cHvDKVumU",
+          authDomain: "mobileacc-6d508.firebaseapp.com",
+          projectId: "mobileacc-6d508",
+          storageBucket: "mobileacc-6d508.appspot.com",
+          messagingSenderId: "586703414695",
+          appId: "1:586703414695:web:01d9620fe2f45ad16dc282",
+          measurementId: "G-5C429VGFL1"
+        };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const perf = getPerformance(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const perf = getPerformance(app);
 
-// 오늘 날짜를 'YYYY-MM-DD' 형식으로 가져오는 함수
-function getTodayDate() {
-	const today = new Date();
-	const year = today.getFullYear();
-	const month = String(today.getMonth() + 1).padStart(2, '0');
-	const day = String(today.getDate()).padStart(2, '0');
-	return `${year}-${month}-${day}`;
-}
-
-// 마지막으로 저장된 접속 날짜 확인
-const lastVisit = localStorage.getItem('lastVisit');
-console.log('lastVisit>>',lastVisit);
-const today = getTodayDate();
-console.log('today>>',today);
-
-// 마지막 접속 날짜가 오늘이 아니면, 접속 이벤트 기록
-if (lastVisit !== today) {
-	logEvent(analytics, '접속한_유저_수', {
-	date: today,
-	content_type: 'connect',
-	content_id: 'acc_qr'
-	});
-	localStorage.setItem('lastVisit', today); // 오늘 날짜로 업데이트
-}
-</script>
-<script type="text/javascript">
-	var cancleCount = 3;
-
-	//ajax
-	
-	
-	$(document).ready(function() {
-		var varUA = navigator.userAgent.toLowerCase();
-		console.log("varUA : "+varUA); 
-		document.getElementById('agent').innerHTML = varUA;
-	
-		//고객의 현재위치 가져오기
-		//custGPS();
-	});
-		
-	function custGPS(){
-			if (navigator.geolocation) {
-				console.log("navigator.geolocation");
-				//브라우저가 geolocatioin을 지원하는지 확인한 후
-				navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-			}
-	}
-		
-	function successCallback(wp_position) {
-		custLat = wp_position.coords.latitude;
-		console.log("custLat : "+custLat);
-		custLng = wp_position.coords.latitude;
-		console.log("custLng : "+custLng);
-		
-		document.getElementById('posi').innerHTML = custLat+","+custLng;
-	}
-	
-	function errorCallback(error) {
-		/*switch(error.code) {
-			case error.PERMISSION_DENIED: console.log("PERMISSION_DENIED(값:1) = 사용자가 위치 정보 접근을 허용하도록 브라우저 권한 설정(https)");
-			break;
-			case error.POSITION_UNAVAILABLE: console.log("POSITION_UNAVAILABLE(값:2) = 사용자가 위치 정보 서비스를 사용할 수 있도록 GPS 설정");
-			break;
-			case error.TIMEOUT: console.log("TIMEOUT(값:3) = timeout 값 수정 or 사용자가 재시도할 수 있는 옵션 제공");
-			break;
-			case error.UNKNOWN_ERROR: console.log("UNKNOWN_ERROR = 정의되지 않은 오류. 디버깅 필요")
+		// 오늘 날짜를 'YYYY-MM-DD' 형식으로 가져오는 함수
+		function getTodayDate() {
+			const today = new Date();
+			const year = today.getFullYear();
+			const month = String(today.getMonth() + 1).padStart(2, '0');
+			const day = String(today.getDate()).padStart(2, '0');
+			return `${year}-${month}-${day}`;
 		}
-			*/
-		cancleCount--;
-		if(cancleCount < 1){
-			alert("브라우저를 완전히 종료 후 재 접속해주시기 바랍니다.");
-		}else{
-			alert("거부를 하시면 이용하실 수 없습니다. "+cancleCount+"회 남았습니다.");
+
+		// 마지막으로 저장된 접속 날짜 확인
+		const lastVisit = localStorage.getItem('lastVisit');
+		const today = getTodayDate();
+
+		// 마지막 접속 날짜가 오늘이 아니면, 접속 이벤트 기록
+		if (lastVisit !== today) {
+			logEvent(analytics, '접속한_유저_수', {
+			date: today,
+			content_type: 'connect',
+			content_id: 'acc_qr'
+			});
+			localStorage.setItem('lastVisit', today); // 오늘 날짜로 업데이트
 		}
-		
-		location.reload();
-	}
-	
-	
-	function custPotision(){
-		console.log("custPosInit");
-		
-		var hospLatitude = 66.77;
-		
-		var hospLongitude = 88.88;
-		
-		var param = "hospLatitude="+hospLatitude
-		+ "&hospLongitude="+hospLongitude; 
-		console.log("param : "+param);
-		
-		$.ajax({
-			type: 'GET',
-			url: '/mobileacc/pytGuGps.do?',
-			data: {
-				hospLatitude,
-				hospLongitude
-			},
-			dataType: 'text',
-			success: function(data){
-				alert("ajax 성공"+data);
-			},
-			error: function(){
-				alert("ajax 실패");
-			}
-		})
-		
-		console.log("form data : "+$("#frm"));
-		$("#frm").submit();	 
-	}
-		
-		
-	</script>
+    </script>
+    <script>
+        function getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon) {
+            //Haversine 공식 : 지구를 구형으로 간주하고 두 지점 간의 대원 거리(즉, 구면 위에서의 직선 거리)를 계산합니다.
+            const R = 6371; // 지구의 반지름 (단위: km)
+            const dLat = deg2rad(hospital_lat - user_lat);  // 위도 차이
+            const dLon = deg2rad(hospital_lon - user_lon);  // 경도 차이
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(user_lat)) * Math.cos(deg2rad(hospital_lat)) * 
+                Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+            const distanceKm = R * c; // 두 지점 간의 거리 (단위: km)
+            const distanceM = distanceKm * 1000; // 거리 변환 (단위: m)
+            
+            return {
+                distanceKm: distanceKm,
+                distanceM: distanceM
+            };
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
+        
+        function getDistance(){
+            if(navigator.geolocatioin){
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            }
+        }
+
+        function showPosition(position){
+            // 사용 예시
+            const user_lat = position.coords.latitude; // 사용자 위치의 위도
+            const user_lon = position.coords.longitude; // 사용자 위치의 경도
+            const hospital_lat = 37.4881193; // 병원의 위도
+            const hospital_lon = 127.0849885; // 병원의 경도
+
+            const distances = getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon);
+            $('#calc_km').text(`${distances.distanceKm.toFixed(2)}`)
+            $('#calc_km').text(`${distances.distanceM.toFixed(0)}`)
+            console.log(`병원과 사용자 위치간 거리: ${distances.distanceKm.toFixed(2)} km`);
+            console.log(`병원과 사용자 위치간 거리: ${distances.distanceM.toFixed(0)} m`);
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+        }
+
+    </script>
 </head>
 <body>
-
-<form>
-	<div id="wrap">
-	<div id="container">
-		<div id="content">
-			<header class="header_t2">
-				<h1 class="logo">
-					<a href="#none" class="link_db"><img src="/mobileacc/img/pytGu/img_logodb.png" alt="DB손해보험"></a>
-				</h1>
-				<div class="wrap_tit_t3">
-					<h2 class="tit">자동차사고<br>본인확인 지불보증</h2>
-				</div>
-			</header><!-- //header -->
-			<hr class="hr_line" aria-hidden="true">
-			
-			<section class="content_t2">
-				<form id="frm" method="post" action="<c:url value='/'/>">
-				<h3 class="tit_h3 type3"><span class="bold">신속한 지불보증 처리를 위해 내원여부와 사고정보를 확인합니다.</span><br><br>예상 소요시간은 약 30초 내외 예상됩니다.</h3>
-				<br><br>
-				<span>1. user-agent : </span><span id="agent"></span>
-				<br><br>
-				<span>2. cust-gps : </span><span id="posi"></span>
-
-				<div class="fixed_bottom_button t1">
-					<ul class="grid s1">
-						<li><a href="#" class="btn bs1 bsr1 bc1" role="button" onclick="javascript:custGPS();">진행하기</a></li>
-					</ul>
-				</div>
-			</section><!-- //section -->		
-
-		</div><!-- //content -->
-	</div><!-- //container -->
-</div>
-</form>
+    <header>
+        <h1>두 지점간 거리계산 로직 산출</h1>
+    </header>
+    <div>
+        병원과 사용자 위치간 거리: <span id="calc_km"></span> km <br>
+        병원과 사용자 위치간 거리: <span id="calc_m"></span> m
+    </div>
+    
 </body>
 </html>
