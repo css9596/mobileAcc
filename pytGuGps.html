@@ -94,7 +94,7 @@
 
             const distances = getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon);
             $('#calc_km').text(`${distances.distanceKm.toFixed(2)}`)
-            $('#calc_km').text(`${distances.distanceM.toFixed(0)}`)
+            $('#calc_m').text(`${distances.distanceM.toFixed(0)}`)
             console.log(`병원과 사용자 위치간 거리: ${distances.distanceKm.toFixed(2)} km`);
             console.log(`병원과 사용자 위치간 거리: ${distances.distanceM.toFixed(0)} m`);
         }
