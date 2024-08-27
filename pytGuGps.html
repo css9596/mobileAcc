@@ -77,10 +77,10 @@
         }
         
         function getDistance(){
-            if(navigator.geolocatioin){
+            if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
-            }else{
-                alert("권한이 없어 위치정보를 가져올 수 없습니다.");
+            } else {
+                console.log("Geolocation is not supported by this browser.");
             }
         }
 
