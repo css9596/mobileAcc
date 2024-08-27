@@ -125,6 +125,8 @@
             const user_lat = position.coords.latitude; // 사용자 위치의 위도
             const user_lon = position.coords.longitude; // 사용자 위치의 경도
             
+            $('#my_location_lac').text(user_lat);
+            $('#my_location_lon').text(user_lon);
 
             const distances = getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon);
             $('#calc_km').text(`${distances.distanceKm.toFixed(2)}`)
@@ -166,8 +168,14 @@
         <option value="5">우리집</option>
     </select>
     <div>
-        목적지와 사용자 위치간 거리: <span id="calc_km"></span> km <br>
+        목적지와 사용자 위치간 거리: <span id="calc_km"></span> km 
+        </br>
         목적지와 사용자 위치간 거리: <span id="calc_m"></span> m
+    </div>
+    <div>
+        현재 내 위치_위도<span id="my_location_lac"></span>
+    </br>
+        현재 내 위치_경도<span id="my_location_lon"></span>
     </div>
     <button id="calc" onclick="javascript:getDistance();">계산하기</button>
 </body>
