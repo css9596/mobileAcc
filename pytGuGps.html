@@ -80,6 +80,8 @@
         function getDistance(){
             if(navigator.geolocatioin){
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
+            }else{
+                alert("권한이 없어 위치정보를 가져올 수 없습니다.");
             }
         }
 
