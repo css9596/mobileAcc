@@ -83,6 +83,30 @@
         function deg2rad(deg) {
             return deg * (Math.PI / 180);
         }
+
+        function checkGeolocationPermission() {
+            if (navigator.permissions) {
+                navigator.permissions.query({ name: 'geolocation' })
+                    .then(function (result) {
+                        if (result.state === 'granted') {
+                            console.log("Geolocation permission granted.");
+                            getDistance(); // 권한이 부여된 경우 위치 정보를 요청합니다.
+                        } else if (result.state === 'prompt') {
+                            alert("위치 정보 조회를 위한 권한을 동의해 주세요.");
+                            console.log("Geolocation permission not granted. User needs to grant access.");
+                        } else {
+                            alert("위치 정보 조회를 위한 권한을 동의해 주세요.");
+                            console.log("Geolocation permission denied.");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log("Error checking geolocation permission: ", error);
+                    });
+            } else {
+                console.log("Permissions API is not supported by this browser.");
+                getDistance(); // Permissions API가 지원되지 않는 경우에도 위치 정보를 요청할 수 있습니다.
+            }
+        }
         
         function getDistance(){
             if (navigator.geolocation) {
@@ -209,8 +233,7 @@
         현재 내 위치_경도: <span id="my_location_lon"></span>
     </div>
     <br>
-    <button id="calc" onclick="javascript:getDistance();">계산하기</button>
-    <br>
+    <button id="calc" onclick="javascript:checkGeolocationPermission();">계산하기</button>
     <br>
     <div>
         단말정보: <sapn id="agent"></span>
