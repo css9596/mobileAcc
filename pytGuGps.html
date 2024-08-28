@@ -1,40 +1,111 @@
-function checkGeolocationPermission() {
-    if (navigator.permissions) {
-        navigator.permissions.query({ name: 'geolocation' })
-            .then(function (result) {
-                if (result.state === 'granted') {
-                    console.log("Geolocation permission granted.");
-                    getDistance(); // 권한이 부여된 경우 위치 정보를 요청합니다.
-                } else if (result.state === 'prompt') {
-                    console.log("Geolocation permission not granted. User needs to grant access.");
-                    requestGeolocationPermission(); // 권한 요청을 진행합니다.
-                } else {
-                    alert("위치 조회를 위한 권한이 거부되어 있는 상태입니다. 브라우저 설정에서 위치 권한을 허용해 주세요.");
-                    console.log("Geolocation permission denied.");
-                }
-            })
-            .catch(function (error) {
-                console.log("Error checking geolocation permission: ", error);
-            });
-    } else {
-        console.log("Permissions API is not supported by this browser.");
-        getDistance(); // Permissions API가 지원되지 않는 경우에도 위치 정보를 요청할 수 있습니다.
-    }
-}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB손해보험_거리계산</title>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+        import { getPerformance } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-performance.js";
 
-function requestGeolocationPermission() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                console.log("Geolocation permission granted.");
-                getDistance(); // 위치 정보를 요청합니다.
-            },
-            function(error) {
-                alert("서비스를 이용하기 위해서는 권한 허용이 필요합니다.");
-                console.log("Error requesting geolocation permission: ", error);
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBuEUO2vPaf6P257Hl15SVhJ1cHvDKVumU",
+          authDomain: "mobileacc-6d508.firebaseapp.com",
+          projectId: "mobileacc-6d508",
+          storageBucket: "mobileacc-6d508.appspot.com",
+          messagingSenderId: "586703414695",
+          appId: "1:586703414695:web:01d9620fe2f45ad16dc282",
+          measurementId: "G-5C429VGFL1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const perf = getPerformance(app);
+
+        function getTodayDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        const lastVisit = localStorage.getItem('lastVisit');
+        const today = getTodayDate();
+
+        if (lastVisit !== today || lastVisit === null) {
+            logEvent(analytics, '접속한_유저_수', {
+                date: today,
+                content_type: 'connect',
+                content_id: 'acc_qr'
+            });
+            localStorage.setItem('lastVisit', today);
+        }
+    </script>
+    <script>
+       $(document).ready(function(){
+        var varUA = navigator.userAgent.toLowerCase();
+        document.getElementById("agent").innerHTML = varUA;
+       });
+       
+        function getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon) {
+            const R = 6371; // 지구의 반지름 (단위: km)
+            const dLat = deg2rad(hospital_lat - user_lat);  // 위도 차이
+            const dLon = deg2rad(hospital_lon - user_lon);  // 경도 차이
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(user_lat)) * Math.cos(deg2rad(hospital_lat)) * 
+                Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+            const distanceKm = R * c; // 두 지점 간의 거리 (단위: km)
+            const distanceM = distanceKm * 1000; // 거리 변환 (단위: m)
+            
+            return {
+                distanceKm: distanceKm,
+                distanceM: distanceM
+            };
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+        function checkGeolocationPermission() {
+            if (navigator.permissions) {
+                navigator.permissions.query({ name: 'geolocation' })
+                    .then(function (result) {
+                        if (result.state === 'granted') {
+                            console.log("Geolocation permission granted.");
+                            getDistance(); // 권한이 부여된 경우 위치 정보를 요청합니다.
+                        } else if (result.state === 'prompt') {
+                            console.log("Geolocation permission not granted. User needs to grant access.");
+                            requestGeolocationPermission(); // 권한 요청을 진행합니다.
+                        } else {
+                            alert("위치 조회를 위한 권한이 거부되어 있는 상태입니다. 브라우저 설정에서 위치 권한을 허용해 주세요.");
+                            console.log("Geolocation permission denied.");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log("Error checking geolocation permission: ", error);
+                    });
+            } else {
+                console.log("Permissions API is not supported by this browser.");
+                getDistance(); // Permissions API가 지원되지 않는 경우에도 위치 정보를 요청할 수 있습니다.
             }
-        );
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-}
+        }
+
+        function requestGeolocationPermission() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        console.log("Geolocation permission granted.");
+                        getDistance(); // 위치 정보를 요청합니다.
+                    },
+                    function(error) {
+                        alert("서비스를 이용하기 위해서는 권한 허용이 필요합니다.");
+                        console.log("Error
