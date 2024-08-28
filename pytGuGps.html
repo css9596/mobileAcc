@@ -108,4 +108,146 @@
                     },
                     function(error) {
                         alert("서비스를 이용하기 위해서는 권한 허용이 필요합니다.");
-                        console.log("Error
+                        console.log("Error requesting geolocation permission: ", error);
+                    }
+                );
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+        
+        function getDistance(){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("현재 접속한 브라우저에서 위치 정보 조회를 지원하지 않습니다. 다른 브라우저를 통해 접속해 주세요.");
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position){
+            const selectElement = document.getElementById('place');
+            const selectedValue = selectElement.value;
+
+            if(selectedValue == ''){
+                alert("거리 계산 할 장소를 선택해주세요.");
+                return;
+            }
+
+            let hospital_lat = 0; // 병원의 위도
+            let hospital_lon = 0; // 병원의 경도
+
+            switch(selectedValue){
+                case '0'://삼성동 삼성병원
+                    hospital_lat = 37.4881193;
+                    hospital_lon = 127.0849885;
+                    break;
+                case '1'://DB금융센터
+                    hospital_lat = 37.5057617;
+                    hospital_lon = 127.0547936;
+                    break;
+                case '2'://강북삼성병원
+                    hospital_lat = 37.5683585;
+                    hospital_lon = 126.9674846;
+                    break;
+                case '3'://파인에비뉴
+                    hospital_lat = 37.5657852;
+                    hospital_lon = 126.9887184;
+                    break;
+                case '4'://예산_친척집
+                    hospital_lat = 36.711536;
+                    hospital_lon = 126.801872;
+                    break;
+                case '5'://우리집
+                    hospital_lat = 37.5644184;
+                    hospital_lon = 126.9540157;
+                    break;
+                case '6'://신촌세브란스
+                    hospital_lat = 37.5623371;
+                    hospital_lon = 126.9408692;
+                    break;
+                case '7'://서울아산병원
+                    hospital_lat = 37.5265455;
+                    hospital_lon = 127.1081223;
+                    break;
+                case '8'://서울대학교병원
+                    hospital_lat = 37.5795427;
+                    hospital_lon = 126.9990602;
+                    break;
+                case '9'://서울성모병원
+                    hospital_lat = 37.5016116;
+                    hospital_lon = 127.0047678;
+                    break;
+                default:
+                    break;
+            }
+
+            const user_lat = position.coords.latitude; // 사용자 위치의 위도
+            const user_lon = position.coords.longitude; // 사용자 위치의 경도
+            
+            $('#my_location_lac').text(user_lat);
+            $('#my_location_lon').text(user_lon);
+
+            const distances = getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon);
+            $('#calc_km').text(`${distances.distanceKm.toFixed(2)}`)
+            $('#calc_m').text(`${distances.distanceM.toFixed(0)}`)
+            console.log(`병원과 사용자 위치간 거리: ${distances.distanceKm.toFixed(2)} km`);
+            console.log(`병원과 사용자 위치간 거리: ${distances.distanceM.toFixed(0)} m`);
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>두 지점간 거리계산 로직 산출</h1>
+    </header>
+    <select id="place">
+        <option value="">선택</option>
+        <option value="0">삼성병원(삼성동)</option>
+        <option value="1">DB금융센터(선릉)</option>
+        <option value="2">강북삼성병원(종로)</option>
+        <option value="3">파인에비뉴(을지로)</option>
+        <option value="4">예산_친척집(예산)</option>
+        <option value="5">우리집</option>
+        <option value="6">신촌세브란스(신촌동)</option>
+        <option value="7">서울아산병원</option>
+        <option value="8">서울대학교병원</option>
+        <option value="9">서울성모병원</option>
+    </select>
+    <br>
+    <br>
+    <div>
+        목적지와 사용자 위치간 거리: <span id="calc_km"></span> km 
+        <br>
+        목적지와 사용자 위치간 거리: <span id="calc_m"></span> m
+    </div>
+    <br>
+    <div>
+        현재 내 위치_위도: <span id="my_location_lac"></span>
+        <br>
+        현재 내 위치_경도: <span id="my_location_lon"></span>
+    </div>
+    <br>
+    <button id="calc" onclick="checkGeolocationPermission();">계산하기</button>
+    <br>
+    <div>
+        단말정보: <span id="agent"></span>
+    </div>
+</body>
+</html>
