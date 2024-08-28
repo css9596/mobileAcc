@@ -95,7 +95,7 @@
                             requestGeolocationPermission(); // 권한 요청을 진행합니다.
                             console.log("Geolocation permission not granted. User needs to grant access.");
                         } else {
-                            alert("위치 정보 조회를 위한 권한을 동의해 주세요.");
+                            alert("위치 조회를 위한 권한이 거부되어 있는 상태입니다. 브라우저 설정에서 위치 권한을 허용해 주세요.");
                             console.log("Geolocation permission denied.");
                         }
                     })
@@ -118,8 +118,8 @@
                     },
                     function(error) {
                         // 위치 정보 요청 중 오류가 발생했을 때의 처리
-			alert("서비스를 이용하기 위해서는 권한 허용이 필요합니다.");
-			location.reload();
+                        alert("서비스를 이용하기 위해서는 권한 허용이 필요합니다.");
+                        location.reload();
                         console.log("Error requesting geolocation permission: ", error);
                     }
                 );
