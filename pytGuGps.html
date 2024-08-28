@@ -132,6 +132,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
             } else {
+                alert("현재 접속한 브라우저에서 위치 정보 조회를 지원하지 않습니다. 다른 브라우저를 통해 접속해 주세요.");
                 console.log("Geolocation is not supported by this browser.");
             }
         }
