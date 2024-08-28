@@ -30,28 +30,28 @@
         const analytics = getAnalytics(app);
         const perf = getPerformance(app);
 
-		// 오늘 날짜를 'YYYY-MM-DD' 형식으로 가져오는 함수
-		function getTodayDate() {
-			const today = new Date();
-			const year = today.getFullYear();
-			const month = String(today.getMonth() + 1).padStart(2, '0');
-			const day = String(today.getDate()).padStart(2, '0');
-			return `${year}-${month}-${day}`;
-		}
-
-		// 마지막으로 저장된 접속 날짜 확인
-		const lastVisit = localStorage.getItem('lastVisit');
-		const today = getTodayDate();
-
-		// 마지막 접속 날짜가 오늘이 아니면, 접속 이벤트 기록
-		if (lastVisit !== today) {
-			logEvent(analytics, '접속한_유저_수', {
-			date: today,
-			content_type: 'connect',
-			content_id: 'acc_qr'
-			});
-			localStorage.setItem('lastVisit', today); // 오늘 날짜로 업데이트
-		}
+	// 오늘 날짜를 'YYYY-MM-DD' 형식으로 가져오는 함수
+	function getTodayDate() {
+		const today = new Date();
+		const year = today.getFullYear();
+		const month = String(today.getMonth() + 1).padStart(2, '0');
+		const day = String(today.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	}
+	
+	// 마지막으로 저장된 접속 날짜 확인
+	const lastVisit = localStorage.getItem('lastVisit');
+	const today = getTodayDate();
+	
+	// 마지막 접속 날짜가 오늘이 아니면, 접속 이벤트 기록
+	if (lastVisit !== today) {
+		logEvent(analytics, '접속한_유저_수', {
+		date: today,
+		content_type: 'connect',
+		content_id: 'acc_qr'
+		});
+		localStorage.setItem('lastVisit', today); // 오늘 날짜로 업데이트
+	}
     </script>
     <script>
        //$('#user_agent').text(navigator.userAgent.toLowerCase());
@@ -124,6 +124,7 @@
                     }
                 );
             } else {
+                alert("현재 접속한 브라우저에서 위치 정보 조회를 지원하지 않습니다. 다른 브라우저를 통해 접속해 주세요._1_");
                 console.log("Geolocation is not supported by this browser.");
             }
         }
@@ -132,7 +133,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
             } else {
-                alert("현재 접속한 브라우저에서 위치 정보 조회를 지원하지 않습니다. 다른 브라우저를 통해 접속해 주세요.");
+                alert("현재 접속한 브라우저에서 위치 정보 조회를 지원하지 않습니다. 다른 브라우저를 통해 접속해 주세요._2_");
                 console.log("Geolocation is not supported by this browser.");
             }
         }
