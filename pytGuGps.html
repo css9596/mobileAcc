@@ -92,7 +92,7 @@
                             console.log("Geolocation permission granted.");
                             getDistance(); // 권한이 부여된 경우 위치 정보를 요청합니다.
                         } else if (result.state === 'prompt') {
-                            alert("위치 정보 조회를 위한 권한을 동의해 주세요.");
+                            requestGeolocationPermission(); // 권한 요청을 진행합니다.
                             console.log("Geolocation permission not granted. User needs to grant access.");
                         } else {
                             alert("위치 정보 조회를 위한 권한을 동의해 주세요.");
@@ -105,6 +105,24 @@
             } else {
                 console.log("Permissions API is not supported by this browser.");
                 getDistance(); // Permissions API가 지원되지 않는 경우에도 위치 정보를 요청할 수 있습니다.
+            }
+        }
+
+        function requestGeolocationPermission() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        // 위치 정보가 성공적으로 받아졌을 때의 처리
+                        console.log("Geolocation permission granted.");
+                        getDistance(); // 위치 정보를 요청합니다.
+                    },
+                    function(error) {
+                        // 위치 정보 요청 중 오류가 발생했을 때의 처리
+                        console.log("Error requesting geolocation permission: ", error);
+                    }
+                );
+            } else {
+                console.log("Geolocation is not supported by this browser.");
             }
         }
         
