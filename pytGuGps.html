@@ -69,6 +69,20 @@
         }
     </script>
     <script>
+        // 디바이스 정보 수집 함수
+        function getDeviceInfo() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const deviceType = /mobile|android|iphone|ipad|tablet/.test(userAgent) ? 'Mobile' : 'Desktop';
+            const os = navigator.platform;
+            const browser = userAgent;
+
+            return {
+                deviceType: deviceType,
+                os: os,
+                browser: browser
+            };
+        }
+        
         $(document).ready(function(){
             var varUA = navigator.userAgent.toLowerCase();
             document.getElementById("agent").innerHTML = varUA;
