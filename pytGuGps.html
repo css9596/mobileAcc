@@ -72,6 +72,13 @@
         $(document).ready(function(){
             var varUA = navigator.userAgent.toLowerCase();
             document.getElementById("agent").innerHTML = varUA;
+
+            const deviceInfo = getDeviceInfo();
+
+            document.getElementById("deviceType").innerHTML = deviceInfo.deviceType;
+            document.getElementById("os").innerHTML = deviceInfo.os;
+            document.getElementById("browser").innerHTML = deviceInfo.browser;
+
         });
 
         function getDistanceFromLatLon(user_lat, user_lon, hospital_lat, hospital_lon) {
@@ -274,6 +281,11 @@
     <br>
     <div>
         단말정보: <span id="agent"></span>
+    </div>
+    <div>
+        <span id="deviceType"></span><br>
+        <span id="os"></span><br>
+        <span id="browser"></span>
     </div>
 </body>
 </html>
