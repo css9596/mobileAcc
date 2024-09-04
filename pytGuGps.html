@@ -46,11 +46,24 @@
             const deviceType = /mobile|android|iphone|ipad|tablet/.test(userAgent) ? 'Mobile' : 'Desktop';
             const os = navigator.platform;
             const browser = userAgent;
+            let deviceModel = 'Unknown Model';
+
+            if (/android/.test(userAgent)) {
+                const modelMatch = userAgent.match(/; ([^;]+) build/);
+                if (modelMatch) {
+                    deviceModel = modelMatch[1].trim();
+                }
+            } else if (/iphone/.test(userAgent)) {
+                deviceModel = 'iPhone'; // iOS 기기는 모델명 구체적 추출이 어려움
+            } else if (/ipad/.test(userAgent)) {
+                deviceModel = 'iPad';
+            }
 
             return {
                 deviceType: deviceType,
                 os: os,
-                browser: browser
+                browser: browser,
+                deviceModel: deviceModel
             };
         }
 
@@ -75,14 +88,27 @@
             const deviceType = /mobile|android|iphone|ipad|tablet/.test(userAgent) ? 'Mobile' : 'Desktop';
             const os = navigator.platform;
             const browser = userAgent;
+            let deviceModel = 'Unknown Model';
+
+            if (/android/.test(userAgent)) {
+                const modelMatch = userAgent.match(/; ([^;]+) build/);
+                if (modelMatch) {
+                    deviceModel = modelMatch[1].trim();
+                }
+            } else if (/iphone/.test(userAgent)) {
+                deviceModel = 'iPhone'; // iOS 기기는 모델명 구체적 추출이 어려움
+            } else if (/ipad/.test(userAgent)) {
+                deviceModel = 'iPad';
+            }
 
             return {
                 deviceType: deviceType,
                 os: os,
-                browser: browser
+                browser: browser,
+                deviceModel: deviceModel
             };
         }
-        
+
         $(document).ready(function(){
             var varUA = navigator.userAgent.toLowerCase();
             document.getElementById("agent").innerHTML = varUA;
@@ -92,6 +118,7 @@
             document.getElementById("deviceType").innerHTML = deviceInfo.deviceType;
             document.getElementById("os").innerHTML = deviceInfo.os;
             document.getElementById("browser").innerHTML = deviceInfo.browser;
+            document.getElementById("deviceModel").innerHTML = deviceInfo.deviceModel;
 
         });
 
@@ -299,7 +326,8 @@
     <div>
         디바이스 타입 : <span id="deviceType"></span><br>
         디바이스 OS : <span id="os"></span><br>
-        디바이스 브라우저 : <span id="browser"></span>
+        디바이스 브라우저 : <span id="browser"></span><br>
+        디바이스 모델 : <span id="deviceModel"></span><br>
     </div>
 </body>
 </html>
